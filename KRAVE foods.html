@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KRAVE — Street Food, Elevated</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Dela+Gothic+One&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+
+/* ══════════════════════════════════════
+   TOKENS
+══════════════════════════════════════ */
+:root {
+  --void:    #0a0a0a;
+  --dark:    #111111;
+  --dark-2:  #181818;
+  --dark-3:  #222222;
+  --lime:    #c8f230;
+  --lime-2:  #a8cc18;
+  --coral:   #ff4e2a;
+  --sky:     #38d9f5;
+  --gold:    #ffb830;
+  --white:   #f5f5f0;
+  --white-50:#f5f5f080;
+  --white-20:#f5f5f033;
+  --white-10:#f5f5f01a;
+  --border:  #2a2a2a;
+
+  --ff-display: 'Dela Gothic One', sans-serif;
+  --ff-accent:  'Black Han Sans', sans-serif;
+  --ff-body:    'Plus Jakarta Sans', sans-serif;
+  --ease: cubic-bezier(.16,1,.3,1);
+  --spring: cubic-bezier(.34,1.56,.64,1);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--ff-body);
+  background:var(--void);
+  color:var(--white);
+  overflow-x:hidden;
+}
+img{display:block;width:100%;object-fit:cover;}
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;}
+button{font-family:var(--ff-body);cursor:pointer;border:none;}
+
+/* ══════════════════════════════════════
+   SCROLLBAR
+══════════════════════════════════════ */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--void);}
+::-webkit-scrollbar-thumb{background:var(--lime);border-radius:2px;}
+
+/* ══════════════════════════════════════
+   NAV
+══════════════════════════════════════ */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:900;
+  display: flex; align-items:center; justify-content:space-between;
+  padding: 0 48px; height: 68px;
+  background: rgba(10,10,10,.85);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border);
+  transition: height .3s var(--ease);
+}
+.nav-logo {
+  font-family: var(--ff-display);
+  font-size: 1.6rem;
+  letter-spacing: .06em;
+  color: var(--white);
+  display: flex; align-items:center; gap: 8px;
+}
+.nav-logo .logo-dot {
+  width: 10px; height: 10px;
+  background: var(--lime);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100%{ transform:scale(1); box-shadow: 0 0 0 0 rgba(200,242,48,.4); }
+  50%{ transform:scale(1.2); box-shadow: 0 0 0 8px rgba(200,242,48,0); }
+}
+.nav-links {
+  display: flex; align-items:center; gap: 4px;
+}
+.nav-links a {
+  font-size: .78rem; font-weight: 500;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--white-50); padding: 8px 16px;
+  border-radius: 40px;
+  transition: color .2s, background .2s;
+}
+.nav-links a:hover { color: var(--white); background: var(--white-10); }
+.nav-links a.active { color: var(--void); background: var(--lime); }
+.nav-order {
+  font-size: .75rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--void); background: var(--lime);
+  padding: 11px 24px; border-radius: 40px;
+  transition: transform .2s var(--spring), box-shadow .2s;
+  box-shadow: 0 0 0 0 rgba(200,242,48,.4);
+}
+.nav-order:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 24px rgba(200,242,48,.3);
+}
+
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  padding-top: 68px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Animated grid background */
+.hero::before {
+  content:'';
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(200,242,48,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,242,48,.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events:none;
+}
+
+.hero-left {
+  display: flex; flex-direction:column;
+  justify-content: center;
+  padding: 80px 56px;
+  position: relative;
+  z-index: 2;
+}
+.hero-tag {
+  display: inline-flex; align-items:center; gap: 8px;
+  background: var(--white-10); border: 1px solid var(--border);
+  border-radius: 40px; padding: 6px 14px 6px 10px;
+  width: fit-content; margin-bottom: 32px;
+}
+.hero-tag-dot {
+  width: 6px; height: 6px; border-radius:50%;
+  background: var(--lime); flex-shrink:0;
+}
+.hero-tag span {
+  font-size: .7rem; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--lime);
+}
+.hero-h1 {
+  font-family: var(--ff-display);
+  font-size: clamp(3.5rem, 6.5vw, 7rem);
+  line-height: .9;
+  letter-spacing: -.01em;
+  color: var(--white);
+  margin-bottom: 28px;
+}
+.hero-h1 .stroke-text {
+  -webkit-text-stroke: 2px var(--white);
+  color: transparent;
+}
+.hero-h1 .lime { color: var(--lime); }
+.hero-h1 .coral { color: var(--coral); }
+.hero-desc {
+  font-size: .95rem; font-weight: 300;
+  color: var(--white-50); line-height: 1.8;
+  max-width: 400px; margin-bottom: 40px;
+}
+.hero-cta-row { display:flex; align-items:center; gap: 16px; margin-bottom: 56px; }
+.btn-lime {
+  font-size: .78rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--void); background: var(--lime);
+  padding: 15px 32px; border-radius: 40px;
+  transition: transform .25s var(--spring), box-shadow .25s;
+  box-shadow: 0 4px 30px rgba(200,242,48,.25);
+}
+.btn-lime:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(200,242,48,.35);
+}
+.btn-ghost-white {
+  font-size: .78rem; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--white); background: transparent;
+  padding: 14px 24px; border-radius: 40px;
+  border: 1px solid var(--border);
+  display: flex; align-items:center; gap: 8px;
+  transition: border-color .2s, color .2s, background .2s;
+}
+.btn-ghost-white:hover {
+  border-color: var(--white-50);
+  background: var(--white-10);
+}
+.hero-stats {
+  display: flex; gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 16px; overflow: hidden;
+}
+.hero-stat {
+  flex: 1; padding: 20px 24px;
+  border-right: 1px solid var(--border);
+}
+.hero-stat:last-child { border-right:none; }
+.hero-stat-num {
+  font-family: var(--ff-display);
+  font-size: 1.8rem; color: var(--lime);
+  line-height: 1; margin-bottom: 4px;
+}
+.hero-stat-label {
+  font-size: .68rem; font-weight: 500;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--white-50);
+}
+
+/* Hero right — photo stack */
+.hero-right {
+  position: relative; overflow: hidden;
+  display: flex; align-items:center; justify-content:center;
+  padding: 60px 40px;
+}
+.hero-photo-main {
+  width: 340px; height: 440px;
+  object-fit: cover; border-radius: 24px;
+  position: relative; z-index: 3;
+  box-shadow: 0 32px 80px rgba(0,0,0,.6);
+  animation: float1 5s ease-in-out infinite;
+}
+@keyframes float1 {
+  0%,100%{ transform: translateY(0) rotate(-1deg); }
+  50%{ transform: translateY(-12px) rotate(-1deg); }
+}
+.hero-photo-back {
+  position: absolute;
+  width: 280px; height: 360px;
+  object-fit: cover; border-radius: 20px;
+  z-index: 2;
+  top: 50%; transform: translateY(-50%) rotate(6deg) translateX(90px);
+  opacity: .7;
+  box-shadow: 0 24px 60px rgba(0,0,0,.5);
+  animation: float2 5s ease-in-out infinite;
+}
+@keyframes float2 {
+  0%,100%{ transform: translateY(calc(-50% + 0px)) rotate(6deg) translateX(90px); }
+  50%{ transform: translateY(calc(-50% + 10px)) rotate(6deg) translateX(90px); }
+}
+.hero-photo-back2 {
+  position: absolute;
+  width: 240px; height: 300px;
+  object-fit: cover; border-radius: 18px;
+  z-index: 1;
+  top: 50%; transform: translateY(-50%) rotate(-8deg) translateX(-100px);
+  opacity: .5;
+  animation: float3 5s ease-in-out 1s infinite;
+}
+@keyframes float3 {
+  0%,100%{ transform: translateY(calc(-50% - 0px)) rotate(-8deg) translateX(-100px); }
+  50%{ transform: translateY(calc(-50% - 14px)) rotate(-8deg) translateX(-100px); }
+}
+.hero-floating-chip {
+  position: absolute; z-index: 10;
+  background: var(--dark-2); border: 1px solid var(--border);
+  border-radius: 16px; padding: 14px 18px;
+  display: flex; align-items:center; gap: 12px;
+  box-shadow: 0 16px 40px rgba(0,0,0,.4);
+}
+.hero-chip-1 { top: 22%; right: 8%; animation: chipFloat 4s ease-in-out infinite; }
+.hero-chip-2 { bottom: 22%; left: 8%; animation: chipFloat 4s ease-in-out .8s infinite; }
+@keyframes chipFloat {
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-6px); }
+}
+.chip-emoji { font-size: 1.5rem; }
+.chip-text-main { font-size: .8rem; font-weight: 700; color: var(--white); }
+.chip-text-sub  { font-size: .68rem; color: var(--white-50); margin-top: 2px; }
+.hero-lime-blob {
+  position: absolute; width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(200,242,48,.12) 0%, transparent 70%);
+  border-radius: 50%; pointer-events:none; z-index:0;
+  top:50%; left:50%; transform:translate(-50%,-50%);
+}
+
+/* ══════════════════════════════════════
+   TICKER
+══════════════════════════════════════ */
+.ticker {
+  background: var(--lime); padding: 13px 0;
+  overflow: hidden; white-space: nowrap;
+}
+.ticker-track {
+  display: inline-flex;
+  animation: ticker 20s linear infinite;
+  gap:0;
+}
+@keyframes ticker {
+  from{ transform:translateX(0); }
+  to  { transform:translateX(-50%); }
+}
+.ticker-item {
+  font-family: var(--ff-accent);
+  font-size: .95rem; letter-spacing: .06em;
+  color: var(--void); padding: 0 24px;
+  display: flex; align-items:center; gap: 16px;
+}
+.ticker-item::after {
+  content:'◆'; font-size:.5rem; color: var(--void);
+}
+
+/* ══════════════════════════════════════
+   MENU SECTION
+══════════════════════════════════════ */
+.section { padding: 100px 48px; max-width: 1400px; margin: 0 auto; }
+
+.section-eyebrow {
+  display: flex; align-items:center; gap: 10px;
+  margin-bottom: 14px;
+}
+.eyebrow-pill {
+  background: var(--white-10); border: 1px solid var(--border);
+  border-radius: 40px; padding: 4px 12px;
+  font-size: .65rem; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--lime);
+}
+.section-title {
+  font-family: var(--ff-display);
+  font-size: clamp(2.5rem, 4.5vw, 4.5rem);
+  line-height: .95; letter-spacing: -.01em;
+  color: var(--white); margin-bottom: 8px;
+}
+.section-title .accent { color: var(--lime); }
+.section-title .stroke {
+  -webkit-text-stroke: 1.5px var(--white-50);
+  color: transparent;
+}
+.section-sub {
+  font-size: .9rem; font-weight: 300;
+  color: var(--white-50); line-height: 1.8;
+  max-width: 440px;
+}
+
+/* Category tabs */
+.menu-tabs {
+  display: flex; gap: 8px; flex-wrap:wrap;
+  margin-bottom: 48px; margin-top: 40px;
+}
+.menu-tab {
+  font-size: .72rem; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 9px 20px; border-radius: 40px;
+  border: 1px solid var(--border);
+  color: var(--white-50); background: transparent;
+  transition: all .2s var(--ease);
+}
+.menu-tab:hover { color: var(--white); border-color: var(--white-50); }
+.menu-tab.active { color: var(--void); background: var(--lime); border-color: var(--lime); }
+
+/* Menu grid */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.menu-card {
+  background: var(--dark-2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: transform .3s var(--ease), border-color .3s, box-shadow .3s;
+  cursor: pointer;
+  position: relative;
+}
+.menu-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--lime);
+  box-shadow: 0 20px 60px rgba(0,0,0,.4), 0 0 0 1px var(--lime);
+}
+.menu-card-img-wrap {
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  position: relative;
+}
+.menu-card-img-wrap img {
+  height: 100%;
+  transition: transform .5s var(--ease);
+  filter: saturate(.9);
+}
+.menu-card:hover .menu-card-img-wrap img {
+  transform: scale(1.08);
+  filter: saturate(1.1);
+}
+.menu-card-badge {
+  position: absolute; top: 12px; left: 12px;
+  font-size: .6rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  padding: 5px 10px; border-radius: 40px;
+}
+.badge-hot  { background: var(--coral); color: #fff; }
+.badge-new  { background: var(--sky); color: var(--void); }
+.badge-veg  { background: #3ecf6a; color: var(--void); }
+.badge-spicy{ background: var(--gold); color: var(--void); }
+.menu-card-body { padding: 20px; }
+.menu-card-top {
+  display: flex; align-items:flex-start;
+  justify-content: space-between; gap: 12px;
+  margin-bottom: 8px;
+}
+.menu-card-name {
+  font-family: var(--ff-display);
+  font-size: 1.1rem; line-height: 1.1;
+  color: var(--white);
+}
+.menu-card-price {
+  font-family: var(--ff-display);
+  font-size: 1.3rem; color: var(--lime);
+  flex-shrink: 0;
+}
+.menu-card-desc {
+  font-size: .78rem; font-weight: 300;
+  color: var(--white-50); line-height: 1.6;
+  margin-bottom: 16px;
+}
+.menu-card-footer {
+  display: flex; align-items:center; justify-content:space-between;
+}
+.menu-card-tags { display:flex; gap:6px; flex-wrap:wrap; }
+.menu-card-tag {
+  font-size: .6rem; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--white-50); background: var(--white-10);
+  border-radius: 40px; padding: 3px 9px;
+}
+.menu-card-add {
+  width: 34px; height: 34px;
+  background: var(--lime); border-radius: 50%;
+  display: flex; align-items:center; justify-content:center;
+  transition: transform .2s var(--spring), box-shadow .2s;
+  flex-shrink:0;
+}
+.menu-card-add svg { width:14px; height:14px; stroke: var(--void); fill:none; stroke-width:2.5; }
+.menu-card-add:hover { transform: scale(1.15); box-shadow: 0 4px 16px rgba(200,242,48,.4); }
+
+/* Featured large card */
+.menu-card.large {
+  grid-column: span 2;
+}
+.menu-card.large .menu-card-img-wrap { aspect-ratio: 16/9; }
+.menu-card.large .menu-card-name { font-size: 1.4rem; }
+
+/* ══════════════════════════════════════
+   PROCESS SECTION
+══════════════════════════════════════ */
+.process-section {
+  background: var(--dark-2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 100px 48px;
+}
+.process-inner {
+  max-width: 1400px; margin: 0 auto;
+}
+.process-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items:center; margin-top: 60px;
+}
+.process-steps { display:flex; flex-direction:column; gap: 0; }
+.process-step {
+  display: flex; gap: 24px;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: padding-left .3s var(--ease);
+}
+.process-step:first-child { border-top: 1px solid var(--border); }
+.process-step:hover { padding-left: 12px; }
+.step-num {
+  font-family: var(--ff-display);
+  font-size: 2.5rem; line-height:1;
+  color: var(--white-20);
+  min-width: 56px;
+  transition: color .3s;
+}
+.process-step:hover .step-num { color: var(--lime); }
+.step-content {}
+.step-title {
+  font-family: var(--ff-display);
+  font-size: 1.2rem; color: var(--white);
+  margin-bottom: 8px;
+}
+.step-desc {
+  font-size: .82rem; font-weight: 300;
+  color: var(--white-50); line-height: 1.7;
+}
+.process-visual {
+  position: relative; border-radius: 24px; overflow: hidden;
+}
+.process-visual img {
+  width: 100%; aspect-ratio: 3/4;
+  object-fit: cover;
+  filter: saturate(.85) contrast(1.05);
+}
+.process-visual-overlay {
+  position: absolute; inset:0;
+  background: linear-gradient(to top, rgba(10,10,10,.7) 0%, transparent 50%);
+}
+.process-visual-label {
+  position: absolute; bottom: 28px; left: 28px;
+  font-family: var(--ff-display);
+  font-size: 2rem; color: var(--white);
+  line-height: 1;
+}
+.process-visual-label span { color: var(--lime); display:block; font-size: 1rem; margin-top: 4px; }
+
+/* ══════════════════════════════════════
+   SPECIALS — horizontal scroll
+══════════════════════════════════════ */
+.specials-section { padding: 100px 0; overflow: hidden; }
+.specials-header {
+  padding: 0 48px;
+  display: flex; align-items:flex-end;
+  justify-content: space-between;
+  margin-bottom: 48px;
+}
+.specials-scroll {
+  display: flex; gap: 20px;
+  padding: 0 48px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-snap-type: x mandatory;
+}
+.specials-scroll::-webkit-scrollbar { display:none; }
+.special-card {
+  flex: 0 0 300px;
+  background: var(--dark-2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  scroll-snap-align: start;
+  transition: border-color .3s;
+  cursor:pointer;
+}
+.special-card:hover { border-color: var(--coral); }
+.special-card-img { aspect-ratio: 1; overflow:hidden; }
+.special-card-img img { height:100%; transition:transform .4s var(--ease); filter:saturate(.85); }
+.special-card:hover .special-card-img img { transform:scale(1.06); filter:saturate(1.1); }
+.special-card-body { padding: 20px; }
+.special-day {
+  font-size: .65rem; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--coral); margin-bottom: 8px;
+}
+.special-name {
+  font-family: var(--ff-display);
+  font-size: 1.1rem; color: var(--white);
+  line-height: 1.1; margin-bottom: 8px;
+}
+.special-price {
+  display: flex; align-items:center; gap: 10px;
+}
+.special-price-new {
+  font-family: var(--ff-display);
+  font-size: 1.3rem; color: var(--lime);
+}
+.special-price-old {
+  font-size: .82rem; color: var(--white-50);
+  text-decoration: line-through;
+}
+
+/* ══════════════════════════════════════
+   ABOUT SECTION
+══════════════════════════════════════ */
+.about-section {
+  display: grid; grid-template-columns: 1fr 1fr;
+  min-height: 600px;
+  overflow: hidden;
+}
+.about-visual {
+  position: relative; overflow: hidden;
+}
+.about-visual img { height:100%; object-fit:cover; filter:saturate(.8); }
+.about-visual-overlay {
+  position:absolute; inset:0;
+  background: linear-gradient(to right, transparent 60%, var(--void));
+}
+.about-content {
+  background: var(--void);
+  display: flex; flex-direction:column;
+  justify-content: center;
+  padding: 80px 56px 80px 48px;
+}
+.about-title {
+  font-family: var(--ff-display);
+  font-size: clamp(2.5rem,4vw,4rem);
+  line-height: .95;
+  color: var(--white); margin-bottom: 24px;
+}
+.about-title .lime { color: var(--lime); }
+.about-desc {
+  font-size: .9rem; font-weight: 300;
+  color: var(--white-50); line-height: 1.85;
+  margin-bottom: 36px;
+}
+.about-pills { display:flex; gap: 10px; flex-wrap:wrap; margin-bottom: 36px; }
+.about-pill {
+  font-size: .7rem; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 8px 16px; border-radius: 40px;
+  border: 1px solid var(--border); color: var(--white-50);
+}
+.about-pill.active { border-color: var(--lime); color: var(--lime); background: rgba(200,242,48,.06); }
+.about-metrics {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border); border-radius: 16px; overflow:hidden;
+  margin-top: 8px;
+}
+.about-metric {
+  background: var(--dark-2); padding: 20px;
+  text-align: center;
+}
+.about-metric-num {
+  font-family: var(--ff-display);
+  font-size: 1.8rem; color: var(--lime); line-height:1;
+  margin-bottom: 4px;
+}
+.about-metric-label {
+  font-size: .65rem; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--white-50);
+}
+
+/* ══════════════════════════════════════
+   TESTIMONIALS
+══════════════════════════════════════ */
+.testi-section { padding: 100px 48px; max-width:1400px; margin:0 auto; }
+.testi-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 16px; margin-top: 48px;
+}
+.testi-card {
+  background: var(--dark-2);
+  border: 1px solid var(--border);
+  border-radius: 20px; padding: 28px;
+  position: relative; overflow:hidden;
+  transition: border-color .3s, transform .3s var(--ease);
+}
+.testi-card:hover { border-color: var(--lime); transform: translateY(-4px); }
+.testi-stars { color: var(--gold); font-size: .85rem; margin-bottom: 16px; letter-spacing: 2px; }
+.testi-text {
+  font-size: .88rem; font-weight: 300;
+  color: var(--white-50); line-height: 1.7;
+  margin-bottom: 24px; font-style: italic;
+}
+.testi-author { display:flex; align-items:center; gap: 12px; }
+.testi-avatar {
+  width: 42px; height: 42px;
+  border-radius: 50%; object-fit:cover;
+  border: 2px solid var(--border);
+}
+.testi-name { font-size: .82rem; font-weight: 700; color: var(--white); }
+.testi-source { font-size: .7rem; color: var(--white-50); }
+.testi-bg-num {
+  position:absolute; bottom:-16px; right:16px;
+  font-family: var(--ff-display);
+  font-size: 8rem; line-height:1;
+  color: rgba(200,242,48,.04); pointer-events:none;
+}
+
+/* ══════════════════════════════════════
+   ORDER / CTA SECTION
+══════════════════════════════════════ */
+.cta-section {
+  background: var(--lime);
+  padding: 100px 48px;
+  text-align: center;
+  position: relative; overflow:hidden;
+}
+.cta-section::before {
+  content:'';
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(0,0,0,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.cta-inner { position:relative; z-index:1; max-width:640px; margin:0 auto; }
+.cta-eyebrow {
+  display: inline-flex; align-items:center; gap:8px;
+  background: rgba(0,0,0,.1); border-radius: 40px;
+  padding: 5px 14px; margin-bottom: 24px;
+  font-size: .68rem; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--void);
+}
+.cta-title {
+  font-family: var(--ff-display);
+  font-size: clamp(3rem,6vw,6rem);
+  line-height: .9; letter-spacing: -.01em;
+  color: var(--void); margin-bottom: 20px;
+}
+.cta-desc {
+  font-size: .95rem; font-weight: 300;
+  color: rgba(10,10,10,.6); line-height: 1.7;
+  margin-bottom: 40px;
+}
+.cta-btn {
+  font-size: .8rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--lime); background: var(--void);
+  padding: 18px 44px; border-radius: 40px;
+  display: inline-block;
+  transition: transform .25s var(--spring), box-shadow .25s;
+  box-shadow: 0 8px 32px rgba(0,0,0,.25);
+}
+.cta-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 16px 48px rgba(0,0,0,.35);
+}
+.cta-apps { margin-top: 24px; display:flex; align-items:center; justify-content:center; gap:12px; }
+.cta-app-note {
+  font-size: .72rem; font-weight: 500;
+  color: rgba(10,10,10,.5);
+}
+
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+footer {
+  background: var(--dark); padding: 72px 48px 32px;
+  border-top: 1px solid var(--border);
+}
+.footer-inner { max-width:1400px; margin:0 auto; }
+.footer-top {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 60px; margin-bottom: 60px;
+}
+.footer-logo-text {
+  font-family: var(--ff-display);
+  font-size: 2.2rem; letter-spacing: .06em;
+  color: var(--white); margin-bottom: 14px;
+  display: flex; align-items:center; gap: 10px;
+}
+.footer-logo-text .logo-dot-f {
+  width: 10px; height: 10px; border-radius:50%;
+  background: var(--lime);
+}
+.footer-desc {
+  font-size: .82rem; font-weight: 300;
+  color: var(--white-50); line-height: 1.8;
+  max-width: 260px; margin-bottom: 24px;
+}
+.footer-socials { display:flex; gap: 10px; }
+.f-social {
+  width: 38px; height: 38px;
+  border: 1px solid var(--border); border-radius: 10px;
+  display: flex; align-items:center; justify-content:center;
+  transition: border-color .2s, background .2s;
+  cursor:pointer;
+}
+.f-social svg { width:14px; height:14px; fill:var(--white-50); transition: fill .2s; }
+.f-social:hover { border-color: var(--lime); background: rgba(200,242,48,.08); }
+.f-social:hover svg { fill:var(--lime); }
+.footer-col-title {
+  font-size: .63rem; font-weight: 700;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--white-50); margin-bottom: 20px;
+}
+.footer-col ul { display:flex; flex-direction:column; gap: 12px; }
+.footer-col li {
+  font-size: .82rem; font-weight: 300;
+  color: rgba(245,245,240,.4); cursor:pointer;
+  transition: color .2s;
+}
+.footer-col li:hover { color: var(--white); }
+.footer-bottom {
+  display: flex; align-items:center; justify-content:space-between;
+  padding-top: 28px; border-top: 1px solid var(--border);
+  font-size: .72rem; color: rgba(245,245,240,.2);
+}
+.footer-bottom-links { display:flex; gap: 20px; }
+.footer-bottom-links a { transition: color .2s; }
+.footer-bottom-links a:hover { color: var(--white-50); }
+
+/* ══════════════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════════════ */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+}
+.reveal.up { opacity:1; transform:translateY(0); }
+
+/* ══════════════════════════════════════
+   LOAD ANIMATIONS
+══════════════════════════════════════ */
+@keyframes fadeUp {
+  from{ opacity:0; transform:translateY(28px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+.hero-tag    { animation: fadeUp .5s .1s var(--ease) both; }
+.hero-h1     { animation: fadeUp .6s .2s var(--ease) both; }
+.hero-desc   { animation: fadeUp .5s .35s var(--ease) both; }
+.hero-cta-row{ animation: fadeUp .5s .45s var(--ease) both; }
+.hero-stats  { animation: fadeUp .5s .55s var(--ease) both; }
+.hero-right  { animation: fadeUp .7s .3s var(--ease) both; }
+
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════
+     NAV
+════════════════════════════════════ -->
+<nav>
+  <div class="nav-logo">
+    <div class="logo-dot"></div>
+    KRAVE
+  </div>
+  <ul class="nav-links">
+    <li><a href="#" class="active">Home</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#specials">Specials</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-order">Order Now</button>
+</nav>
+
+<!-- ════════════════════════════════════
+     HERO
+════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">
+      <div class="hero-tag-dot"></div>
+      <span>Now open · 7 days a week</span>
+    </div>
+    <h1 class="hero-h1">
+      STREET<br>
+      <span class="lime">FOOD</span><br>
+      <span class="stroke-text">ELEVATED</span>
+    </h1>
+    <p class="hero-desc">Bold flavors. Zero compromise. We take the world's best street food and turn the dial all the way up.</p>
+    <div class="hero-cta-row">
+      <button class="btn-lime">Order Online</button>
+      <button class="btn-ghost-white">
+        View Menu
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">4.9★</div>
+        <div class="hero-stat-label">Rating</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">50K+</div>
+        <div class="hero-stat-label">Orders</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">28</div>
+        <div class="hero-stat-label">Menu Items</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-lime-blob"></div>
+    <img class="hero-photo-back2" src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&q=80" alt="Food">
+    <img class="hero-photo-back"  src="https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=500&q=80" alt="Food">
+    <img class="hero-photo-main"  src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=85" alt="Burger">
+
+    <div class="hero-floating-chip hero-chip-1">
+      <div class="chip-emoji">🔥</div>
+      <div>
+        <div class="chip-text-main">Spicy Smash Burger</div>
+        <div class="chip-text-sub">Best Seller · $14</div>
+      </div>
+    </div>
+    <div class="hero-floating-chip hero-chip-2">
+      <div class="chip-emoji">⚡</div>
+      <div>
+        <div class="chip-text-main">Ready in 15 min</div>
+        <div class="chip-text-sub">Free delivery over $30</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     TICKER
+════════════════════════════════════ -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">SMASH BURGERS</span>
+    <span class="ticker-item">LOADED FRIES</span>
+    <span class="ticker-item">BAO BUNS</span>
+    <span class="ticker-item">BIRRIA TACOS</span>
+    <span class="ticker-item">RAMEN BOWLS</span>
+    <span class="ticker-item">CRISPY CHICKEN</span>
+    <span class="ticker-item">DIM SUM</span>
+    <span class="ticker-item">WAGYU SLIDERS</span>
+    <span class="ticker-item">SMASH BURGERS</span>
+    <span class="ticker-item">LOADED FRIES</span>
+    <span class="ticker-item">BAO BUNS</span>
+    <span class="ticker-item">BIRRIA TACOS</span>
+    <span class="ticker-item">RAMEN BOWLS</span>
+    <span class="ticker-item">CRISPY CHICKEN</span>
+    <span class="ticker-item">DIM SUM</span>
+    <span class="ticker-item">WAGYU SLIDERS</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     MENU
+════════════════════════════════════ -->
+<section id="menu" class="section">
+  <div class="reveal">
+    <div class="section-eyebrow">
+      <span class="eyebrow-pill">The Menu</span>
+    </div>
+    <h2 class="section-title">OUR <span class="accent">HITS</span></h2>
+    <p class="section-sub">Every item designed to make you stop mid-bite and say <em>"wait, what is that?"</em></p>
+  </div>
+
+  <div class="menu-tabs reveal">
+    <button class="menu-tab active" onclick="setTab(this)">All</button>
+    <button class="menu-tab" onclick="setTab(this)">Burgers</button>
+    <button class="menu-tab" onclick="setTab(this)">Tacos</button>
+    <button class="menu-tab" onclick="setTab(this)">Bowls</button>
+    <button class="menu-tab" onclick="setTab(this)">Sides</button>
+    <button class="menu-tab" onclick="setTab(this)">Drinks</button>
+  </div>
+
+  <div class="menu-grid reveal">
+
+    <!-- Large featured -->
+    <div class="menu-card large">
+      <div class="menu-card-img-wrap">
+        <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=900&q=85" alt="Smash Burger">
+        <span class="menu-card-badge badge-hot">🔥 Best Seller</span>
+      </div>
+      <div class="menu-card-body">
+        <div class="menu-card-top">
+          <div class="menu-card-name">Double Smash Burger</div>
+          <div class="menu-card-price">$16</div>
+        </div>
+        <div class="menu-card-desc">Two smashed patties, American cheese, house sauce, pickled jalapeños, crispy shallots on a brioche bun.</div>
+        <div class="menu-card-footer">
+          <div class="menu-card-tags">
+            <span class="menu-card-tag">🌶 Spicy</span>
+            <span class="menu-card-tag">⭐ Fan Fave</span>
+          </div>
+          <button class="menu-card-add"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <div class="menu-card-img-wrap">
+        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80" alt="Bowl">
+        <span class="menu-card-badge badge-veg">🌿 Vegan</span>
+      </div>
+      <div class="menu-card-body">
+        <div class="menu-card-top">
+          <div class="menu-card-name">Miso Grain Bowl</div>
+          <div class="menu-card-price">$14</div>
+        </div>
+        <div class="menu-card-desc">Farro, roasted veg, edamame, pickled ginger, miso tahini dressing.</div>
+        <div class="menu-card-footer">
+          <div class="menu-card-tags"><span class="menu-card-tag">🌱 Plant-based</span></div>
+          <button class="menu-card-add"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <div class="menu-card-img-wrap">
+        <img src="https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?w=600&q=80" alt="Tacos">
+        <span class="menu-card-badge badge-new">✦ New</span>
+      </div>
+      <div class="menu-card-body">
+        <div class="menu-card-top">
+          <div class="menu-card-name">Birria Tacos</div>
+          <div class="menu-card-price">$13</div>
+        </div>
+        <div class="menu-card-desc">Braised short rib, consommé, oaxaca cheese, white onion, cilantro, lime.</div>
+        <div class="menu-card-footer">
+          <div class="menu-card-tags"><span class="menu-card-tag">🌮 Tacos</span></div>
+          <button class="menu-card-add"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <div class="menu-card-img-wrap">
+        <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&q=80" alt="Ramen">
+        <span class="menu-card-badge badge-spicy">⚡ Trending</span>
+      </div>
+      <div class="menu-card-body">
+        <div class="menu-card-top">
+          <div class="menu-card-name">Tonkotsu Ramen</div>
+          <div class="menu-card-price">$18</div>
+        </div>
+        <div class="menu-card-desc">36-hour pork broth, chashu, soft egg, nori, bamboo shoots, scallions.</div>
+        <div class="menu-card-footer">
+          <div class="menu-card-tags"><span class="menu-card-tag">🍜 Ramen</span></div>
+          <button class="menu-card-add"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <div class="menu-card-img-wrap">
+        <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=600&q=80" alt="Chicken">
+        <span class="menu-card-badge badge-hot">🔥 Hot Pick</span>
+      </div>
+      <div class="menu-card-body">
+        <div class="menu-card-top">
+          <div class="menu-card-name">Karaage Chicken</div>
+          <div class="menu-card-price">$12</div>
+        </div>
+        <div class="menu-card-desc">Double-fried Japanese chicken, yuzu mayo, togarashi seasoning, micro herbs.</div>
+        <div class="menu-card-footer">
+          <div class="menu-card-tags"><span class="menu-card-tag">🍗 Crispy</span></div>
+          <button class="menu-card-add"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <div class="menu-card-img-wrap">
+        <img src="https://images.unsplash.com/photo-1593001874117-c99c800e3eb7?w=600&q=80" alt="Bao">
+        <span class="menu-card-badge badge-new">✦ New</span>
+      </div>
+      <div class="menu-card-body">
+        <div class="menu-card-top">
+          <div class="menu-card-name">Pork Belly Bao</div>
+          <div class="menu-card-price">$11</div>
+        </div>
+        <div class="menu-card-desc">Steamed bao, 12-hour pork belly, hoisin, cucumber, pickled daikon, sesame.</div>
+        <div class="menu-card-footer">
+          <div class="menu-card-tags"><span class="menu-card-tag">🥟 Bao</span></div>
+          <button class="menu-card-add"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     PROCESS
+════════════════════════════════════ -->
+<div class="process-section">
+  <div class="process-inner">
+    <div class="reveal">
+      <div class="section-eyebrow"><span class="eyebrow-pill">How We Do It</span></div>
+      <h2 class="section-title">THE <span class="accent">CRAFT</span></h2>
+    </div>
+    <div class="process-grid">
+      <div class="process-steps reveal">
+        <div class="process-step">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <div class="step-title">Source Obsessively</div>
+            <div class="step-desc">Every ingredient is chosen for flavor first. We visit farms, markets, and suppliers in person — no shortcuts.</div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <div class="step-title">Prep With Precision</div>
+            <div class="step-desc">Our brines, marinades, and ferments are timed to the hour. Flavor is built in layers, not added at the end.</div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <div class="step-title">Cook to Order</div>
+            <div class="step-desc">Nothing sits under a lamp. Every dish is fired the moment you order it. Hot food is better food.</div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">04</div>
+          <div class="step-content">
+            <div class="step-title">Serve Immediately</div>
+            <div class="step-desc">Timing is everything. We obsess over the window between perfect and cold — and we always win.</div>
+          </div>
+        </div>
+      </div>
+      <div class="process-visual reveal">
+        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=700&q=85" alt="Kitchen">
+        <div class="process-visual-overlay"></div>
+        <div class="process-visual-label">
+          Live Kitchen
+          <span>Open 11am–11pm</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SPECIALS
+════════════════════════════════════ -->
+<section id="specials" class="specials-section">
+  <div class="specials-header reveal">
+    <div>
+      <div class="section-eyebrow"><span class="eyebrow-pill">Weekly Specials</span></div>
+      <h2 class="section-title">THIS <span class="accent">WEEK</span></h2>
+    </div>
+    <button class="btn-ghost-white">See All Deals</button>
+  </div>
+  <div class="specials-scroll reveal">
+    <div class="special-card">
+      <div class="special-card-img"><img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=500&q=80" alt="Special"></div>
+      <div class="special-card-body">
+        <div class="special-day">Monday Only</div>
+        <div class="special-name">Truffle Fries + Soft Drink</div>
+        <div class="special-price"><span class="special-price-new">$10</span><span class="special-price-old">$16</span></div>
+      </div>
+    </div>
+    <div class="special-card">
+      <div class="special-card-img"><img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=500&q=80" alt="Special"></div>
+      <div class="special-card-body">
+        <div class="special-day">Tuesday Only</div>
+        <div class="special-name">Double Burger Meal Deal</div>
+        <div class="special-price"><span class="special-price-new">$18</span><span class="special-price-old">$26</span></div>
+      </div>
+    </div>
+    <div class="special-card">
+      <div class="special-card-img"><img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&q=80" alt="Special"></div>
+      <div class="special-card-body">
+        <div class="special-day">Wed & Thu</div>
+        <div class="special-name">Taco Tuesday (but Wed)</div>
+        <div class="special-price"><span class="special-price-new">$9</span><span class="special-price-old">$13</span></div>
+      </div>
+    </div>
+    <div class="special-card">
+      <div class="special-card-img"><img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=500&q=80" alt="Special"></div>
+      <div class="special-card-body">
+        <div class="special-day">Friday Night</div>
+        <div class="special-name">Ramen & Beer Bundle</div>
+        <div class="special-price"><span class="special-price-new">$22</span><span class="special-price-old">$30</span></div>
+      </div>
+    </div>
+    <div class="special-card">
+      <div class="special-card-img"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&q=80" alt="Special"></div>
+      <div class="special-card-body">
+        <div class="special-day">Weekend Brunch</div>
+        <div class="special-name">Bao & Matcha Set</div>
+        <div class="special-price"><span class="special-price-new">$15</span><span class="special-price-old">$21</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     ABOUT
+════════════════════════════════════ -->
+<section id="about" class="about-section">
+  <div class="about-visual">
+    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=85" alt="Restaurant">
+    <div class="about-visual-overlay"></div>
+  </div>
+  <div class="about-content reveal">
+    <div class="section-eyebrow"><span class="eyebrow-pill">Our Story</span></div>
+    <h2 class="about-title">BORN IN<br>THE <span class="lime">STREETS</span></h2>
+    <p class="about-desc">KRAVE started as a single food truck in 2019 — a 10-item menu, a line around the block every lunch. We grew up on street food from Tokyo, Mexico City, Seoul, and Istanbul. We built a kitchen around everything we couldn't stop thinking about.</p>
+    <div class="about-pills">
+      <span class="about-pill active">100% Halal</span>
+      <span class="about-pill active">No MSG</span>
+      <span class="about-pill active">Local Suppliers</span>
+      <span class="about-pill">Gluten-Free Options</span>
+    </div>
+    <div class="about-metrics">
+      <div class="about-metric">
+        <div class="about-metric-num">5</div>
+        <div class="about-metric-label">Locations</div>
+      </div>
+      <div class="about-metric">
+        <div class="about-metric-num">50K</div>
+        <div class="about-metric-label">Happy Eaters</div>
+      </div>
+      <div class="about-metric">
+        <div class="about-metric-num">2019</div>
+        <div class="about-metric-label">Founded</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     TESTIMONIALS
+════════════════════════════════════ -->
+<div class="testi-section">
+  <div class="reveal">
+    <div class="section-eyebrow"><span class="eyebrow-pill">Reviews</span></div>
+    <h2 class="section-title">PEOPLE <span class="accent">TALK</span></h2>
+  </div>
+  <div class="testi-grid reveal">
+    <div class="testi-card">
+      <div class="testi-bg-num">"</div>
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"The birria tacos stopped me in my tracks. I don't throw this word around, but it was a religious experience. The consommé alone is worth the trip."</p>
+      <div class="testi-author">
+        <img class="testi-avatar" src="https://i.pravatar.cc/80?img=11" alt="Guest">
+        <div>
+          <div class="testi-name">Omar Hassan</div>
+          <div class="testi-source">Google Reviews</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-bg-num">"</div>
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Best smash burger in the city, full stop. The sauce is insane. I've been three times this week and I have zero regrets. Zero."</p>
+      <div class="testi-author">
+        <img class="testi-avatar" src="https://i.pravatar.cc/80?img=25" alt="Guest">
+        <div>
+          <div class="testi-name">Priya Mehta</div>
+          <div class="testi-source">TripAdvisor</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-bg-num">"</div>
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Karaage chicken, bao bun, truffle fries, matcha soft serve. I ordered half the menu and every single thing slapped. Genuinely obsessed."</p>
+      <div class="testi-author">
+        <img class="testi-avatar" src="https://i.pravatar.cc/80?img=38" alt="Guest">
+        <div>
+          <div class="testi-name">Zara Kim</div>
+          <div class="testi-source">Instagram</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     CTA
+════════════════════════════════════ -->
+<section class="cta-section">
+  <div class="cta-inner reveal">
+    <div class="cta-eyebrow">📍 5 Locations · Free Delivery</div>
+    <h2 class="cta-title">HUNGRY<br>YET?</h2>
+    <p class="cta-desc">Order online for pickup or delivery. Most orders ready in 15 minutes or less. No excuses for bad food tonight.</p>
+    <a href="#" class="cta-btn">Order Now — It's Fast</a>
+    <div class="cta-apps">
+      <span class="cta-app-note">Also available on Uber Eats · DoorDash · Deliveroo</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     FOOTER
+════════════════════════════════════ -->
+<footer id="contact">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo-text">
+          <div class="logo-dot-f"></div>
+         KRAVE
+        </div>
+        <p class="footer-desc">Street food, elevated. Five locations across the city. Open 7 days, 11am to midnight.</p>
+        <div class="footer-socials">
+          <div class="f-social">
+            <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </div>
+          <div class="f-social">
+            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </div>
+          <div class="f-social">
+            <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+          </div>
+          <div class="f-social">
+            <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75,15.02 15.5,12 9.75,8.98 9.75,15.02" fill="var(--dark)"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Menu</div>
+        <ul>
+          <li>Burgers</li>
+          <li>Tacos</li>
+          <li>Bowls</li>
+          <li>Sides</li>
+          <li>Drinks</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Visit</div>
+        <ul>
+          <li>Downtown</li>
+          <li>Westside</li>
+          <li>Eastgate</li>
+          <li>The Market</li>
+          <li>Airport</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Company</div>
+        <ul>
+          <li>About Us</li>
+          <li>Careers</li>
+          <li>Press</li>
+          <li>Franchising</li>
+          <li>Contact</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 KRAVE Food Co. All rights reserved.</span>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Allergens</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── Scroll reveal ── */
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){ e.target.classList.add('up'); io.unobserve(e.target); }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(r => io.observe(r));
+
+/* ── Menu tabs ── */
+function setTab(el) {
+  document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+/* ── Nav scroll shrink ── */
+window.addEventListener('scroll', () => {
+  document.querySelector('nav').style.height = window.scrollY > 50 ? '56px' : '68px';
+});
+
+/* ── Add to cart feedback ── */
+document.querySelectorAll('.menu-card-add').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    this.style.background = '#3ecf6a';
+    this.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#0a0a0a" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>';
+    setTimeout(() => {
+      this.style.background = '';
+      this.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#0a0a0a" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>';
+    }, 1500);
+  });
+});
+</script>
+</body>
+</html>
